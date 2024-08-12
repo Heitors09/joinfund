@@ -25,7 +25,7 @@ export async function POST(request: NextRequest){
       const tokenData = {
         email: email
       }
-      const verificationToken = await jwt.sign(tokenData, process.env.TOKEN_SECRET_VERIFICATION_KEY, {
+      const verificationToken = await jwt.sign(tokenData, process.env.TOKEN_SECRET_VERIFICATION_KEY || '', {
         expiresIn: '3h'
       })
       

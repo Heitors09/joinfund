@@ -15,20 +15,26 @@ export async function GET(req: NextRequest, res: NextResponse){
    
 
    try {
-    const decoded = jwt.verify(token, process.env.TOKEN_SECRET_VERIFICATION_KEY) as jwt.JwtPayload
+    const decoded = jwt.verify(token, process.env.TOKEN_SECRET_VERIFICATION_KEY || '') as jwt.JwtPayload
+    
+    if(decoded.length === 0){
+      return NextResponse.json('Server Configuration Error', {status: 500})
+    }
+    
+    
     const email = decoded.email
     
+    
+
+
     await prisma.user.update({
       where : {email: email},
       data : {email_verified: true }
     })
-    
-    NextResponse.redirect('/email-verified')
+    return NextResponse.redirect('http://localhost:3000/email-verified')
    } catch (error) {
-     NextResponse.json('Invalid Token', {status: 400})
+     return  NextResponse.json('Invalid Token', {status: 400})
    }
+     
 
-
-
-  
-}
+  }
