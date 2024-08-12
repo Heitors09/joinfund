@@ -1,32 +1,34 @@
-import { NextApiRequest, NextApiResponse } from "next";
+
 import jwt from 'jsonwebtoken';
 import { PrismaClient } from "@prisma/client";
+import { NextRequest, NextResponse } from 'next/server';
 
 const prisma = new PrismaClient();
 
 
-export async function GET(req: NextApiRequest, res: NextApiResponse){
-    const { token } = req.query
-    console.log(token)
+export async function GET(req: NextRequest, res: NextResponse){
+   const token = req.nextUrl.searchParams.get('token')
+
+   if(!token || typeof token !== 'string'){
+     return NextResponse.json('Invalid Token', {status: 400})
+   }
+   
+
+   try {
+    const decoded = jwt.verify(token, process.env.TOKEN_SECRET_VERIFICATION_KEY) as jwt.JwtPayload
+    const email = decoded.email
+    
+    await prisma.user.update({
+      where : {email: email},
+      data : {email_verified: true }
+    })
+    
+    NextResponse.redirect('/email-verified')
+   } catch (error) {
+     NextResponse.json('Invalid Token', {status: 400})
+   }
 
 
-    if(!token || typeof token !== 'string'){
-      return res.status(400).json({error: 'Invalid Token'})
-    }
 
-    try {
-      const decoded = jwt.verify(token,process.env.TOKEN_SECRET_VERIFICATION_KEY) as jwt.JwtPayload
-      const email = decoded.email
-
-      await prisma.user.update({
-        where : {email: email},
-        data : {email_verified: true }
-      })
-
-      res.redirect('/email-verified')
-    } catch (error) {
-      res.status(400).json({error: 'Invalid Token or Expired'})
-    }
-
-
+  
 }
