@@ -18,14 +18,15 @@ export async function POST(request: NextRequest){
       const post = await prisma.user.create({
         data: {
           email: email,
-          password: hashedPassword
+          password: hashedPassword,
+          username: email
         },
       })
 
       const tokenData = {
         email: email
       }
-      const verificationToken = await jwt.sign(tokenData, process.env.TOKEN_SECRET_VERIFICATION_KEY || '', {
+      const verificationToken = await jwt.sign(tokenData, process.env.TOKEN_SECRET_VERIFICATION_KEY!, {
         expiresIn: '3h'
       })
       

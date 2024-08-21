@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Button } from "@/components/ui/button"
 import Link from 'next/link'
 import SearchNavbar from './search-navbar'
@@ -18,6 +18,7 @@ import {
   DrawerContent,
   DrawerTrigger,
 } from "@/components/ui/drawer"
+import { SessionProvider } from '@/context/app-wrapper'
 
 
 
@@ -25,6 +26,7 @@ import {
 
 const Navbar = () => {
 const [layout, setLayout] = useState<'signup' | 'login'>('login')
+const user = useContext(SessionProvider)
   
   const contentByLayout : Record<typeof layout , JSX.Element> = {
     signup : (
@@ -46,11 +48,13 @@ const [layout, setLayout] = useState<'signup' | 'login'>('login')
           </div>
           <SearchNavbar width='400px' hidden={true}/>
       </div>
-      <div className='flex items-center gap-5 max-lg:hidden'>
+      <div className='flex items-center gap-5 '>
         <Dialog>
-          <DialogTrigger className='text-white text-xl hover:brightness-90'>
+          {user && user.user ? 
+          <div><h1 className='text-white font-bold'>{user.user.username}</h1><Button onClick={user.handleLogOut}>Logout</Button></div> 
+           : <DialogTrigger className='text-white text-xl hover:brightness-90'>
             Login or Register
-          </DialogTrigger>
+          </DialogTrigger>}
           <DialogContent className='bg-[#0E1A1F] rounded- w-[900px] rounded-[8px] h-[500px] border-none '>
               <div className='flex flex-col'>
                 <div className='border-b flex gap-12 text-white justify-end text-xl pb-3 -mt-2'>
@@ -61,7 +65,6 @@ const [layout, setLayout] = useState<'signup' | 'login'>('login')
               </div>
           </DialogContent>
         </Dialog>
-      </div>
       <div className='lg:hidden'>
       <Drawer>
       <DrawerTrigger asChild>
@@ -80,6 +83,7 @@ const [layout, setLayout] = useState<'signup' | 'login'>('login')
          </div>
       </DrawerContent>
     </Drawer>
+      </div>
       </div>
     </div>
   )

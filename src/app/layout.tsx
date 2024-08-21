@@ -4,6 +4,9 @@ import "./globals.css";
 import Navbar from "./components/navbar/navbar";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import AppWrapper from "@/context/app-wrapper";
+import { getSessionUser } from "@/lib/user-service/get-session-user";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 const inter = Inter({ subsets: ["latin"] });
 const poppins = Poppins({subsets: ['latin'], weight: ['500','400','600']})
@@ -14,14 +17,16 @@ export const metadata: Metadata = {
 };
 
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const user = await getSessionUser()
+
   return (
     <html lang="en">
-     <AppWrapper>
+     <AppWrapper user={user}>
       <body className={poppins.className}>
         <Navbar/>
         {children}

@@ -1,9 +1,14 @@
+'use client'
+
 import { Button } from "@/components/ui/button";
 import { MoveUpRight } from "lucide-react";
 import Link from "next/link";
 
 
 export default function Home() {
+ 
+
+  
   return (
    <div>
      <div className=" w-full max-[1269px]:flex-col xl:h-screen  max-[1269px]:items-center flex  pt-12">

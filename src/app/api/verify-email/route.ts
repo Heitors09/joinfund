@@ -31,7 +31,7 @@ export async function GET(req: NextRequest, res: NextResponse){
       where : {email: email},
       data : {email_verified: true }
     })
-    return NextResponse.redirect('http://localhost:3000/email-verified')
+    return NextResponse.redirect(`http://localhost:3000/email-verified/${token}`)
    } catch (error) {
      return  NextResponse.json('Invalid Token', {status: 400})
    }
