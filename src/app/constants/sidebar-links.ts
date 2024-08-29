@@ -1,24 +1,24 @@
-import { FileSearch } from "lucide-react";
+import { BriefcaseBusiness, FileSearch, Heart, Settings, User } from "lucide-react";
 
-export const SidebarLinks = [
+export const tabValues = [
   {
-    label: 'Explore',
-    link: '/',
-    icon: FileSearch
+    label: 'Edit Profile',
+    value: 'Edit',
+    icon: User
   },
   {
-    label: 'Start Campaign',
-    link: '/',
-    icon: FileSearch
+    label: 'My Campaigns',
+    value: 'Campaigns',
+    icon: BriefcaseBusiness 
   },
   {
-    label: 'Explore',
-    link: '/',
-    icon: FileSearch
+    label: 'My Contributions',
+    value: 'Contributions',
+    icon: Heart
   },
   {
-    label: 'Explore',
-    link: '/',
-    icon: FileSearch
+    label: 'Settings',
+    value: 'Settings',
+    icon: Settings
   }
 ]

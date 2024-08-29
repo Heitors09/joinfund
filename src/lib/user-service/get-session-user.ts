@@ -13,12 +13,14 @@ export const getSessionUser = async () => {
 
   const decodedToken: any = jwt.verify(token, process.env.TOKEN_SECRET_VERIFICATION_KEY!)
   
+  
   const user = {
     id: decodedToken.id,
     email: decodedToken.email,
-    username: decodedToken.username
+    username: decodedToken.username,
+    user_image: decodedToken.user_image,
+    about: decodedToken.about
   }
-
 
   return user;
 }

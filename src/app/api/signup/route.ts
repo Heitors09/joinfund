@@ -19,7 +19,9 @@ export async function POST(request: NextRequest){
         data: {
           email: email,
           password: hashedPassword,
-          username: email
+          username: email,
+          user_image: "",
+          about: ""
         },
       })
 
